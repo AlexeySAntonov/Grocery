@@ -1,0 +1,3 @@
+-keep class * extends androidx.room.RoomDatabase
+-dontwarn androidx.room.paging.**
+-keep class com.aleksejantonov.core.db.impl.data.Converters

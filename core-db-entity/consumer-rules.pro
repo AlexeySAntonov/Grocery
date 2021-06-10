@@ -1,0 +1,4 @@
+-keep class com.aleksejantonov.core.db.entity.complex.** { *; }
+-keep class com.aleksejantonov.core.db.entity.MappersKt
+-keep class com.aleksejantonov.core.db.entity.ProductEntity
+-keep class com.aleksejantonov.core.db.entity.TrolleyEntity

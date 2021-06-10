@@ -1,0 +1,4 @@
+-keep class com.aleksejantonov.core.model.dto.** { *; }
+-keep class com.aleksejantonov.core.model.ProductModel
+-keep class com.aleksejantonov.core.model.SyncStatus
+-keep class com.aleksejantonov.core.model.TrolleyModel

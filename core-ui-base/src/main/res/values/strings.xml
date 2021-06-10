@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="products_in_trolley">Products in the cart: %1$d</string>
+  <string name="create_cart">Create cart</string>
+  <string name="enter_cart_name">Enter cart name</string>
+  <string name="cart_description">Description (optional)</string>
+  <string name="add_new_product">Add new product</string>
+  <string name="remove_all_items">Remove all items</string>
+  <string name="remove_all_items_q">Remove all items?</string>
+  <string name="remove_all_items_description">Are you sure that you want to remove all items from the cart?</string>
+  <string name="remove_trolley">Remove cart?</string>
+  <string name="remove_trolley_description">Are you sure that you want to remove this cart?</string>
+  <string name="remove_all_trolleys">Remove all carts?</string>
+  <string name="remove_all_trolleys_description">Are you sure that you want to remove all carts?</string>
+  <string name="ok_got_it">OK, got it!</string>
+  <string name="synchronization">Synchronization…</string>
+  <string name="sync_done">Synchronization done</string>
+  <string name="sync_canceled">Synchronization canceled</string>
+  <string name="sync_failed">Synchronization failed</string>
+
+  <string name="long_date_format_now">Now</string>
+  <string name="long_date_format_few_minutes">A Few Minutes ago</string>
+  <string name="long_date_format_minutes_ago" tools:ignore="PluralsCandidate">%1$d mins ago</string>
+  <plurals name="long_date_format_hours_plural">
+    <item quantity="one">%1$d hour ago</item>
+    <item quantity="other">%1$d hours ago</item>
+  </plurals>
+  <string name="long_date_format_today">Today | %1$s</string>
+  <string name="long_date_format_yesterday">Yesterday | %1$s</string>
+  <string name="long_date_format_weekday_time">%1$s | %2$s</string>
+  <string name="long_date_format_month_day_time">%1$s | %2$s</string>
+</resources>
