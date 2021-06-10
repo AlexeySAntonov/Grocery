@@ -26,7 +26,7 @@ android {
             buildConfigField(
                 "String",
                 "FIREBASE_DATABASE_URL",
-                project.property("FIREBASE_DATABASE_URL") as String
+                System.getenv()["FIREBASE_DATABASE_URL"] ?: project.property("FIREBASE_DATABASE_URL") as String
             )
         }
     }
