@@ -15,8 +15,8 @@
   <string name="ok_got_it">OK, got it!</string>
   <string name="synchronization">Synchronization…</string>
   <string name="sync_done">Synchronization done</string>
-  <string name="sync_canceled">Synchronization canceled</string>
-  <string name="sync_failed">Synchronization failed</string>
+  <string name="sync_canceled">Synchronization canceled (tap to sync again)</string>
+  <string name="sync_failed">Synchronization failed (tap to sync again)</string>
 
   <string name="long_date_format_now">Now</string>
   <string name="long_date_format_few_minutes">A Few Minutes ago</string>

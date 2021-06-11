@@ -5,6 +5,7 @@ import android.app.Application
 import com.aleksejantonov.core.di.GlobalFeatureProvider
 import com.aleksejantonov.core.navigation.GlobalRouter
 import com.aleksejantonov.core.navigation.di.NavigationModule
+import com.aleksejantonov.core.network.util.di.NetworkModule
 import com.aleksejantonov.module.injector.BaseApi
 import com.aleksejantonov.module.injector.BaseDependencies
 import dagger.BindsInstance
@@ -17,6 +18,7 @@ import javax.inject.Singleton
     AppModule::class,
     FeatureProviderModule::class,
     NavigationModule::class,
+    NetworkModule::class,
   ]
 )
 interface AppComponent : AppComponentApi {

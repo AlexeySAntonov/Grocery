@@ -5,6 +5,7 @@ import com.aleksejantonov.core.db.api.store.TrolleysStore
 import com.aleksejantonov.core.di.ComponentKey
 import com.aleksejantonov.core.di.FeatureScope
 import com.aleksejantonov.core.navigation.GlobalRouter
+import com.aleksejantonov.core.network.util.NetworkStateListener
 import com.aleksejantonov.core.ui.base.mvvm.ViewModelFactoryProvider
 import com.aleksejantonov.feature.trolleylist.api.di.FeatureTrolleyListApi
 import com.aleksejantonov.module.injector.BaseDependencies
@@ -31,6 +32,9 @@ interface FeatureTrolleyListComponent : FeatureTrolleyListApi, ViewModelFactoryP
         @BindsInstance
         fun router(router: GlobalRouter): Builder
 
+        @BindsInstance
+        fun networkStateListener(listener: NetworkStateListener): Builder
+
         fun build(): FeatureTrolleyListComponent
     }
 
@@ -43,6 +47,7 @@ interface FeatureTrolleyListComponent : FeatureTrolleyListApi, ViewModelFactoryP
                 .trolleysStore(dependencies.trolleysStore())
                 .syncStore(dependencies.syncStore())
                 .router(dependencies.router())
+                .networkStateListener(dependencies.networkStateListener())
                 .build() to componentKey
         }
     }
@@ -55,4 +60,5 @@ interface FeatureTrolleyListDependencies : BaseDependencies {
     fun trolleysStore(): TrolleysStore
     fun syncStore(): SyncStore
     fun router(): GlobalRouter
+    fun networkStateListener(): NetworkStateListener
 }

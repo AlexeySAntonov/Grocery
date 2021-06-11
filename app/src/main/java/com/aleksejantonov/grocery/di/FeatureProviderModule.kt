@@ -6,6 +6,7 @@ import com.aleksejantonov.core.db.api.store.SyncStore
 import com.aleksejantonov.core.db.api.store.TrolleysStore
 import com.aleksejantonov.core.di.GlobalFeatureProvider
 import com.aleksejantonov.core.navigation.GlobalRouter
+import com.aleksejantonov.core.network.util.NetworkStateListener
 import com.aleksejantonov.feature.trolleydetails.api.di.FeatureTrolleyDetailsApi
 import com.aleksejantonov.feature.trolleydetails.impl.di.FeatureTrolleyDetailsComponentHolder
 import com.aleksejantonov.feature.trolleydetails.impl.di.FeatureTrolleyDetailsDependencies
@@ -36,12 +37,14 @@ class FeatureProviderModule {
   @Singleton
   fun provideFeatureTrolleyListDependencies(
     coreDatabaseApi: CoreDatabaseApi,
-    router: GlobalRouter
+    router: GlobalRouter,
+    networkStateListener: NetworkStateListener,
   ): FeatureTrolleyListDependencies {
     return object : FeatureTrolleyListDependencies {
       override fun trolleysStore(): TrolleysStore = coreDatabaseApi.trolleysStore()
       override fun syncStore(): SyncStore = coreDatabaseApi.syncStore()
       override fun router(): GlobalRouter = router
+      override fun networkStateListener(): NetworkStateListener = networkStateListener
     }
   }
 

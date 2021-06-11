@@ -93,6 +93,8 @@ class TrolleyListFragment : BaseFragment() {
   private fun updateSyncPlank(status: SyncStatus) {
     with(binding) {
       syncPlank.isVisible = true
+      syncPlank.alpha = 1f
+      syncPlank.isClickable = false
       when (status) {
         SyncStatus.DONE -> {
           syncPlank.setBackgroundResource(R.color.appGreen)
@@ -110,10 +112,12 @@ class TrolleyListFragment : BaseFragment() {
         SyncStatus.CANCELED -> {
           syncPlank.setBackgroundResource(R.color.appYellow)
           syncPlank.setText(R.string.sync_canceled)
+          syncPlank.setOnClickListener { viewModel.syncDataManually() }
         }
         SyncStatus.FAILED -> {
           syncPlank.setBackgroundResource(R.color.appRed)
           syncPlank.setText(R.string.sync_failed)
+          syncPlank.setOnClickListener { viewModel.syncDataManually() }
         }
       }
     }

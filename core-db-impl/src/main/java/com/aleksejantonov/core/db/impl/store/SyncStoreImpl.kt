@@ -1,5 +1,6 @@
 package com.aleksejantonov.core.db.impl.store
 
+import android.util.Log
 import com.aleksejantonov.core.db.api.data.DatabaseClientApi
 import com.aleksejantonov.core.db.api.store.SyncStore
 import com.aleksejantonov.core.db.entity.dto
@@ -44,6 +45,7 @@ internal class SyncStoreImpl @Inject constructor(
       .addOnSuccessListener(asyncExecutor) trCallback@{ trolleysSnapshot ->
         val trolleys = trolleysSnapshot.getValue(object : GenericTypeIndicator<HashMap<String, TrolleyDto>>() {})?.values ?: run {
           offer(SyncStatus.DONE)
+          channel.close()
           return@trCallback
         }
         localDatabase.trolleyDao().insertTrolleys(trolleys = trolleys.map { dto -> dto.entity() })
@@ -53,18 +55,34 @@ internal class SyncStoreImpl @Inject constructor(
           .addOnSuccessListener(asyncExecutor) prCallback@{ productsSnapshot ->
             val products = productsSnapshot.getValue(object : GenericTypeIndicator<HashMap<String, ProductDto>>() {})?.values ?: run {
               offer(SyncStatus.DONE)
+              channel.close()
               return@prCallback
             }
             val filteredProducts = products.filter { existentRemoteTrolleyIds.contains(it.trolleyId) }
             localDatabase.productDao().insertProducts(filteredProducts.map { it.entity() })
 
             offer(SyncStatus.DONE)
+            channel.close()
           }
-          .addOnCanceledListener(asyncExecutor) { offer(SyncStatus.CANCELED) }
-          .addOnFailureListener(asyncExecutor) { offer(SyncStatus.FAILED) }
+          .addOnCanceledListener(asyncExecutor) {
+            offer(SyncStatus.CANCELED)
+            channel.close()
+          }
+          .addOnFailureListener(asyncExecutor) {
+            Log.e("SYNC EX", it.toString())
+            offer(SyncStatus.FAILED)
+            channel.close()
+          }
       }
-      .addOnCanceledListener(asyncExecutor) { offer(SyncStatus.CANCELED) }
-      .addOnFailureListener(asyncExecutor) { offer(SyncStatus.FAILED) }
+      .addOnCanceledListener(asyncExecutor) {
+        offer(SyncStatus.CANCELED)
+        channel.close()
+      }
+      .addOnFailureListener(asyncExecutor) {
+        Log.e("SYNC EX", it.toString())
+        offer(SyncStatus.FAILED)
+        channel.close()
+      }
     awaitClose()
   }
 

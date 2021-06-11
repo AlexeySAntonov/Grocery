@@ -51,6 +51,7 @@ dependencies {
     implementation(project(":core-db-impl"))
     implementation(project(":core-navigation"))
     implementation(project(":core-di"))
+    implementation(project(":core-network-util"))
     implementation(project(":module-injector"))
     implementation(project(":feature-trolleylist-impl"))
     implementation(project(":feature-trolleydetails-impl"))

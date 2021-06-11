@@ -34,6 +34,7 @@ dependencies {
     implementation(project(":core-navigation"))
     implementation(project(":module-injector"))
     implementation(project(":core-di"))
+    implementation(project(":core-network-util"))
 
     implementation(Libs.kotlin)
     implementation(Libs.appCompat)
