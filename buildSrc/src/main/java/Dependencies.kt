@@ -33,6 +33,11 @@ object Libs {
 
     // Firebase
     const val firebaseDb = "com.google.firebase:firebase-database-ktx:20.0.0"
+
+    // Test
+    const val junit = "junit:junit:4.12"
+    const val mockk = "io.mockk:mockk:1.10.6"
+    const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
 }
 
 object BuildPlugins {
