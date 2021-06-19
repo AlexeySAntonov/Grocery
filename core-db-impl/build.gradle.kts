@@ -42,6 +42,7 @@ dependencies {
     implementation(project(":module-injector"))
 
     implementation(Libs.kotlin)
+    implementation(Libs.coroutines)
     implementation(Libs.room)
     kapt(Libs.roomCompiler)
     implementation(Libs.roomKtx)

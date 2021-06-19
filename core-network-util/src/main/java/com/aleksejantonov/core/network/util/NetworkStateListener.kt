@@ -20,15 +20,15 @@ class NetworkStateListener @Inject constructor(app: Application) {
       object : ConnectivityManager.NetworkCallback() {
 
         override fun onAvailable(network: Network) {
-          offer(NetworkState.AVAILABLE)
+          trySend(NetworkState.AVAILABLE)
         }
 
         override fun onUnavailable() {
-          offer(NetworkState.LOST)
+          trySend(NetworkState.LOST)
         }
 
         override fun onLost(network: Network) {
-          offer(NetworkState.LOST)
+          trySend(NetworkState.LOST)
         }
       }
     }

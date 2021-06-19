@@ -44,7 +44,7 @@ internal class SyncStoreImpl @Inject constructor(
     remoteDatabase.child(TABLE_TROLLEYS).get()
       .addOnSuccessListener(asyncExecutor) trCallback@{ trolleysSnapshot ->
         val trolleys = trolleysSnapshot.getValue(object : GenericTypeIndicator<HashMap<String, TrolleyDto>>() {})?.values ?: run {
-          offer(SyncStatus.DONE)
+          trySend(SyncStatus.DONE)
           channel.close()
           return@trCallback
         }
@@ -54,33 +54,33 @@ internal class SyncStoreImpl @Inject constructor(
         remoteDatabase.child(TABLE_PRODUCTS).get()
           .addOnSuccessListener(asyncExecutor) prCallback@{ productsSnapshot ->
             val products = productsSnapshot.getValue(object : GenericTypeIndicator<HashMap<String, ProductDto>>() {})?.values ?: run {
-              offer(SyncStatus.DONE)
+              trySend(SyncStatus.DONE)
               channel.close()
               return@prCallback
             }
             val filteredProducts = products.filter { existentRemoteTrolleyIds.contains(it.trolleyId) }
             localDatabase.productDao().insertProducts(filteredProducts.map { it.entity() })
 
-            offer(SyncStatus.DONE)
+            trySend(SyncStatus.DONE)
             channel.close()
           }
           .addOnCanceledListener(asyncExecutor) {
-            offer(SyncStatus.CANCELED)
+            trySend(SyncStatus.CANCELED)
             channel.close()
           }
           .addOnFailureListener(asyncExecutor) {
             Log.e("SYNC EX", it.toString())
-            offer(SyncStatus.FAILED)
+            trySend(SyncStatus.FAILED)
             channel.close()
           }
       }
       .addOnCanceledListener(asyncExecutor) {
-        offer(SyncStatus.CANCELED)
+        trySend(SyncStatus.CANCELED)
         channel.close()
       }
       .addOnFailureListener(asyncExecutor) {
         Log.e("SYNC EX", it.toString())
-        offer(SyncStatus.FAILED)
+        trySend(SyncStatus.FAILED)
         channel.close()
       }
     awaitClose()

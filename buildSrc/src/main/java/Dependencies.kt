@@ -4,10 +4,10 @@ object Versions {
     const val targetSdk = 30
     const val minSdk = 21
 
-    const val kotlin = "1.4.32"
-    const val coroutines = "1.4.0"
-    const val dagger = "2.28"
-    const val room = "2.2.5"
+    const val kotlin = "1.5.10"
+    const val coroutines = "1.5.0"
+    const val dagger = "2.37"
+    const val room = "2.3.0"
 }
 
 object Libs {
