@@ -1,4 +1,5 @@
 ![Build](https://github.com/AlexeySAntonov/Grocery/actions/workflows/build_sign_upload.yml/badge.svg)
+![Test](https://github.com/AlexeySAntonov/Grocery/actions/workflows/test.yml/badge.svg)
 # Grocery
 A shopping list application.<br/>
 The application makes everyday shopping easier by enabling the user to list down items to buy.<br/>
