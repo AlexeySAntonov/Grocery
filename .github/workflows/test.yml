@@ -1,0 +1,22 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  unit_tests:
+    runs-on: ubuntu-latest
+    env:
+      GROCERY_KEY_ALIAS: ${{ secrets.GROCERY_KEY_ALIAS }}
+      GROCERY_KEY_PASSWORD: ${{ secrets.GROCERY_KEY_PASSWORD }}
+      GROCERY_KEYSTORE_PASSWORD: ${{ secrets.GROCERY_KEYSTORE_PASSWORD }}
+      GROCERY_KEYSTORE_PATH: ${{ secrets.GROCERY_KEYSTORE_PATH }}
+      FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v2.3.3
+      - name: Unit tests
+        run: ./gradlew test
