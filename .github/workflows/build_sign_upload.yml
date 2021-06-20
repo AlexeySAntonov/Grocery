@@ -9,7 +9,8 @@ on:
 jobs:
 
   build:
-    needs: [ unit_tests ]
+#    Waiting for github support needs job from a different *.yml
+#    needs: [ unit_tests ]
     runs-on: ubuntu-latest
     env:
       GROCERY_KEY_ALIAS: ${{ secrets.GROCERY_KEY_ALIAS }}
