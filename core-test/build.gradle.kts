@@ -31,4 +31,8 @@ dependencies {
     // Conflicts with mockk due to direct inclusion of byte buddy
     exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-debug")
   }
+  api(Libs.threetenForTest) {
+    // https://github.com/JakeWharton/ThreeTenABP/issues/14
+    exclude("com.jakewharton.threetenabp", "threetenabp")
+  }
 }

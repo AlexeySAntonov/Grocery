@@ -48,4 +48,23 @@ object TrolleysFactory {
       )
     )
   }
+
+  fun trolleyModelWithValidName() = TrolleyModel(
+    id = 1,
+    name = "Test1",
+    description = "",
+    created = LocalDateTime.now(ZoneId.of("UTC")),
+    products = emptyList(),
+    syncStatus = SyncStatus.UPDATING
+  )
+
+  fun trolleyModelWithInvalidName() = TrolleyModel(
+    id = 1,
+    name = "",
+    description = "",
+    created = LocalDateTime.now(ZoneId.of("UTC")),
+    products = emptyList(),
+    syncStatus = SyncStatus.UPDATING
+  )
+
 }

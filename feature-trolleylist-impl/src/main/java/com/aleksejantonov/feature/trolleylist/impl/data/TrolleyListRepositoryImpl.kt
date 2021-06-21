@@ -20,16 +20,8 @@ class TrolleyListRepositoryImpl @Inject constructor(
   }
 
   override suspend fun createTrolley(name: String, description: String): Long {
-    return trolleysStore.createTrolley(
-      TrolleyModel(
-        id = 0L,
-        name = name,
-        description = description,
-        created = LocalDateTime.now(),
-        products = emptyList(),
-        syncStatus = SyncStatus.UPDATING,
-      )
-    )
+    if (name.isBlank()) throw IllegalArgumentException("Name can't be blank")
+    return trolleysStore.createTrolley(getTrolleyModelForCreation(name = name, description = description))
   }
 
   override suspend fun deleteTrolley(id: Long) {
@@ -47,6 +39,17 @@ class TrolleyListRepositoryImpl @Inject constructor(
 
   override suspend fun syncRemoteData(): Flow<SyncStatus> {
     return syncStore.fetchRemoteData()
+  }
+
+  private fun getTrolleyModelForCreation(name: String, description: String): TrolleyModel {
+    return TrolleyModel(
+      id = 0L,
+      name = name,
+      description = description,
+      created = LocalDateTime.now(),
+      products = emptyList(),
+      syncStatus = SyncStatus.UPDATING,
+    )
   }
 
 }

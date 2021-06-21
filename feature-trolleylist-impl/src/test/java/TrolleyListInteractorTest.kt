@@ -4,8 +4,7 @@ import com.aleksejantonov.core.ui.base.adapter.delegate.RemoveAllItem
 import com.aleksejantonov.feature.trolleylist.impl.business.TrolleyListInteractor
 import com.aleksejantonov.feature.trolleylist.impl.business.TrolleyListInteractorImpl
 import com.aleksejantonov.feature.trolleylist.impl.data.TrolleyListRepository
-import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
@@ -43,36 +42,48 @@ class TrolleyListInteractorTest {
   }
 
   @Test
-  fun `create trolley`() = runBlocking {
-    coEvery { repositoryMock.createTrolley("Name", "Description") } returns 1L
-    val id = trolleyListInteractor.createTrolley("Name", "Description")
-    assert(id == 1L)
+  fun `create trolley with valid name`() = runBlocking {
+    val validModel = TrolleysFactory.trolleyModelWithValidName()
+    coEvery { repositoryMock.createTrolley(any(), any()) } returns validModel.id
+    val id = trolleyListInteractor.createTrolley(validModel.name, validModel.name)
+    assert(id == validModel.id)
+    coVerify { repositoryMock.createTrolley(any(), any()) }
+  }
+
+  @Test
+  fun `create trolley with invalid name`() = runBlocking {
+    var assertionThrown = false
+    val invalidModel = TrolleysFactory.trolleyModelWithInvalidName()
+    try {
+      trolleyListInteractor.createTrolley(invalidModel.name, invalidModel.description)
+    } catch (e: IllegalArgumentException) {
+      assertionThrown = true
+    }
+    assert(assertionThrown)
   }
 
   // Proxy
   @Test
   fun `delete trolley`() = runBlocking {
-    val id = 1L
-    coEvery { repositoryMock.deleteTrolley(id) } returns Unit
-    val result = trolleyListInteractor.deleteTrolley(id)
-    assert(result == Unit)
+    coEvery { repositoryMock.deleteTrolley(any()) } just runs
+    trolleyListInteractor.deleteTrolley(1L)
+    coVerify { repositoryMock.deleteTrolley(any()) }
   }
 
   // Proxy
   @Test
   fun `delete all trolleys`() = runBlocking {
-    coEvery { repositoryMock.deleteAllTrolleys() } returns Unit
-    val result = trolleyListInteractor.deleteAllTrolleys()
-    assert(result == Unit)
+    coEvery { repositoryMock.deleteAllTrolleys() } just runs
+    trolleyListInteractor.deleteAllTrolleys()
+    coVerify { repositoryMock.deleteAllTrolleys() }
   }
 
   // Proxy
   @Test
   fun `sync trolley`() = runBlocking {
-    val id = 1L
-    coEvery { repositoryMock.syncTrolley(id) } returns Unit
-    val result = trolleyListInteractor.syncTrolley(id)
-    assert(result == Unit)
+    coEvery { repositoryMock.syncTrolley(any()) } just runs
+    trolleyListInteractor.syncTrolley(1L)
+    coVerify { repositoryMock.syncTrolley(any()) }
   }
 
   @Test

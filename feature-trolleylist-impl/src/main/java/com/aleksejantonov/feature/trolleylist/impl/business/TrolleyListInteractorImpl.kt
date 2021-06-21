@@ -24,6 +24,7 @@ class TrolleyListInteractorImpl @Inject constructor(
   }
 
   override suspend fun createTrolley(name: String, description: String): Long {
+    if (name.isBlank()) throw IllegalArgumentException("Name can't be blank")
     return repository.createTrolley(name = name, description = description)
   }
 

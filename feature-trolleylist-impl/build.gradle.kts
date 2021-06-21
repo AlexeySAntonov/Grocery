@@ -35,10 +35,11 @@ dependencies {
     implementation(project(":module-injector"))
     implementation(project(":core-di"))
     implementation(project(":core-network-util"))
-    implementation(project(":core-test"))
 
     implementation(Libs.kotlin)
     implementation(Libs.appCompat)
     implementation(Libs.dagger)
     kapt(Libs.daggerCompiler)
+
+    testImplementation(project(":core-test"))
 }
