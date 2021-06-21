@@ -40,6 +40,7 @@ dependencies {
     api(project(":core-db-api"))
     implementation(project(":core-db-entity"))
     implementation(project(":module-injector"))
+    implementation(project(":core-di"))
 
     implementation(Libs.kotlin)
     implementation(Libs.coroutines)

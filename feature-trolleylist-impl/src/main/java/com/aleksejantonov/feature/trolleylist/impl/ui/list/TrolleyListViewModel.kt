@@ -2,6 +2,7 @@ package com.aleksejantonov.feature.trolleylist.impl.ui.list
 
 import androidx.lifecycle.viewModelScope
 import com.aleksejantonov.core.di.ComponentKey
+import com.aleksejantonov.core.di.DispatcherIO
 import com.aleksejantonov.core.model.SyncStatus
 import com.aleksejantonov.core.navigation.GlobalRouter
 import com.aleksejantonov.core.navigation.transition.PushTransitionProvider
@@ -12,7 +13,7 @@ import com.aleksejantonov.core.ui.model.ListItem
 import com.aleksejantonov.feature.trolleylist.impl.business.TrolleyListInteractor
 import com.aleksejantonov.feature.trolleylist.impl.di.FeatureTrolleyListComponentHolder
 import com.aleksejantonov.feature.trolleylist.impl.ui.create.TrolleyCreateFragment
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 class TrolleyListViewModel @Inject constructor(
   @ComponentKey private val componentKey: String,
+  @DispatcherIO private val dispatcherIO: CoroutineDispatcher,
   private val interactor: TrolleyListInteractor,
   private val router: GlobalRouter,
   private val networkStateListener: NetworkStateListener,
@@ -33,12 +35,12 @@ class TrolleyListViewModel @Inject constructor(
   val syncData: SharedFlow<SyncStatus> = _syncData
 
   init {
-    viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+    viewModelScope.launch(dispatcherIO + exceptionHandler) {
       interactor.data().collect {
         _data.emit(it)
       }
     }
-    viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+    viewModelScope.launch(dispatcherIO + exceptionHandler) {
       networkStateListener.networkConnectionFlow
         .distinctUntilChanged()
         .filter { it == NetworkState.AVAILABLE }
@@ -55,7 +57,7 @@ class TrolleyListViewModel @Inject constructor(
   }
 
   fun syncDataManually() {
-    viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+    viewModelScope.launch(dispatcherIO + exceptionHandler) {
       interactor.syncRemoteData()
         .debounce(300L)
         .onStart { emit(SyncStatus.UPDATING) }
@@ -79,19 +81,19 @@ class TrolleyListViewModel @Inject constructor(
   }
 
   fun syncTrolley(id: Long) {
-    viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+    viewModelScope.launch(dispatcherIO + exceptionHandler) {
       interactor.syncTrolley(id)
     }
   }
 
   fun onRemoveTrolleyClick(trolleyId: Long) {
-    viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+    viewModelScope.launch(dispatcherIO + exceptionHandler) {
       interactor.deleteTrolley(trolleyId)
     }
   }
 
   fun onRemoveAllTrolleysClick() {
-    viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+    viewModelScope.launch(dispatcherIO + exceptionHandler) {
       interactor.deleteAllTrolleys()
     }
   }

@@ -4,6 +4,7 @@ import com.aleksejantonov.core.db.api.store.ProductsStore
 import com.aleksejantonov.core.db.api.store.SyncStore
 import com.aleksejantonov.core.db.api.store.TrolleysStore
 import com.aleksejantonov.core.di.ComponentKey
+import com.aleksejantonov.core.di.DispatcherIO
 import com.aleksejantonov.core.di.FeatureScope
 import com.aleksejantonov.core.navigation.GlobalRouter
 import com.aleksejantonov.core.ui.base.mvvm.ViewModelFactoryProvider
@@ -11,6 +12,7 @@ import com.aleksejantonov.feature.trolleydetails.api.di.FeatureTrolleyDetailsApi
 import com.aleksejantonov.module.injector.BaseDependencies
 import dagger.BindsInstance
 import dagger.Component
+import kotlinx.coroutines.CoroutineDispatcher
 import java.util.*
 
 @Component(modules = [FeatureTrolleyDetailsModule::class])
@@ -35,6 +37,9 @@ interface FeatureTrolleyDetailsComponent : FeatureTrolleyDetailsApi, ViewModelFa
         @BindsInstance
         fun router(router: GlobalRouter): Builder
 
+        @BindsInstance
+        fun dispatcherIO(@DispatcherIO dispatcher: CoroutineDispatcher): Builder
+
         fun build(): FeatureTrolleyDetailsComponent
     }
 
@@ -48,6 +53,7 @@ interface FeatureTrolleyDetailsComponent : FeatureTrolleyDetailsApi, ViewModelFa
                 .productsStore(dependencies.productsStore())
                 .syncStore(dependencies.syncStore())
                 .router(dependencies.router())
+                .dispatcherIO(dependencies.dispatcherIO())
                 .build() to componentKey
         }
     }
@@ -61,4 +67,5 @@ interface FeatureTrolleyDetailsDependencies : BaseDependencies {
     fun productsStore(): ProductsStore
     fun syncStore(): SyncStore
     fun router(): GlobalRouter
+    fun dispatcherIO(): CoroutineDispatcher
 }

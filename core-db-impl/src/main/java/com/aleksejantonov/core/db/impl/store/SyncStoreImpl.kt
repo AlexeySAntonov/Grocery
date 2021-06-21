@@ -9,6 +9,7 @@ import com.aleksejantonov.core.db.impl.data.PRODUCT_PREFIX
 import com.aleksejantonov.core.db.impl.data.TABLE_PRODUCTS
 import com.aleksejantonov.core.db.impl.data.TABLE_TROLLEYS
 import com.aleksejantonov.core.db.impl.data.TROLLEY_PREFIX
+import com.aleksejantonov.core.di.DispatcherIO
 import com.aleksejantonov.core.model.ProductModel
 import com.aleksejantonov.core.model.SyncStatus
 import com.aleksejantonov.core.model.TrolleyModel
@@ -16,7 +17,7 @@ import com.aleksejantonov.core.model.dto.ProductDto
 import com.aleksejantonov.core.model.dto.TrolleyDto
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.GenericTypeIndicator
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -28,13 +29,14 @@ import javax.inject.Singleton
 
 @Singleton
 internal class SyncStoreImpl @Inject constructor(
+  @DispatcherIO private val dispatcherIO: CoroutineDispatcher,
   private val remoteDatabase: DatabaseReference,
   private val localDatabase: DatabaseClientApi,
 ) : SyncStore {
 
   private val asyncExecutor by lazy {
     Executor { command ->
-      GlobalScope.launch(Dispatchers.IO) {
+      GlobalScope.launch(dispatcherIO) {
         command?.run()
       }
     }
