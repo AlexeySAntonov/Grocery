@@ -13,9 +13,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NetworkStateListener @Inject constructor(app: Application) {
+class NetworkStateListener @Inject constructor(private val app: Application) {
 
-  val networkConnectionFlow = callbackFlow<NetworkState> {
+  fun networkConnectionFlow() = callbackFlow<NetworkState> {
     val networkCallback: ConnectivityManager.NetworkCallback by lazy {
       object : ConnectivityManager.NetworkCallback() {
 

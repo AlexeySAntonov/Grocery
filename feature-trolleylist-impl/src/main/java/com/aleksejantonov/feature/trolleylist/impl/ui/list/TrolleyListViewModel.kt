@@ -41,7 +41,7 @@ class TrolleyListViewModel @Inject constructor(
       }
     }
     viewModelScope.launch(dispatcherIO + exceptionHandler) {
-      networkStateListener.networkConnectionFlow
+      networkStateListener.networkConnectionFlow()
         .distinctUntilChanged()
         .filter { it == NetworkState.AVAILABLE }
         .debounce(300L)
